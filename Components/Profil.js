@@ -1,12 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import {StyleSheet, Text, TextInput, View, Image} from "react-native";
-import { useEffect, useState } from "react";
-import { AntDesign, MaterialIcons, Entypo } from "@expo/vector-icons";
+import {StyleSheet, Text, View, Image} from "react-native";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import styled from "styled-components/native";
 
 export default function Profil({ user, project, skills }) {
-  const a = (user.level - parseInt(user.level)) * 100;
+  if (user && project && skills)
+  {
+    const a = (user.level - parseInt(user.level)) * 100;
   const Title = styled.Text`
     text-align: center;
     font-size: 20px;
@@ -19,7 +20,7 @@ export default function Profil({ user, project, skills }) {
   return (
     <View>
       <View style={styles.container}>
-        <Image style= {styles.img} source= {{uri: user?.img}} />
+        <Image style= {styles.img} source= {{uri: user.img}} />
         <View>
           <View style={styles.user}>
             <AntDesign name="user" size={24} color="black" />
@@ -64,6 +65,7 @@ export default function Profil({ user, project, skills }) {
             <View key={test.id} style= {styles.project}>
               <Text style={styles.titleColor}>{test.name}</Text>
               <Text style={styles.titleColor}>Level: {test.level}</Text>
+              <Text style={styles.titleColor}>pourcentage: {(test.level / 0.3).toFixed(2)} %</Text>
             </View>
           );
         })
@@ -73,13 +75,21 @@ export default function Profil({ user, project, skills }) {
       </View>
     </View>
   );
+  }
+  else{
+    return (
+      <View>
+        <Text>Username doesn't exist</Text>
+      </View>
+    )
+  }
+  
 }
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
-    marginTop: 30,
-    paddingTop: 10,
+    paddingTop: 20,
     backgroundColor: "#2E4292",
     alignItems: "center",
   },

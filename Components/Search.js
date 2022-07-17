@@ -1,24 +1,50 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, TextInput, View, Image } from "react-native";
-import { useEffect, useState } from "react";
+import { StyleSheet, TextInput, View, Image, Button, Text } from "react-native";
+import { useState } from "react";
 
 
-export default function Search() {
+export default function Search({navigation}) {
   const [username, setUsername] = useState("")
+  const [validUsername, setValidUsername] = useState(true)
   const changeHandler = (val) => {
-    setUsername(val)
-}
+    setUsername(val.toLowerCase())
+  }
+
+  const validateUsername = (username) => {
+    const emailRegex = /^[a-z]{2,8}$/
+    if (emailRegex.test(username)) {
+      navigation.navigate('profil', username)
+      setValidUsername(true)
+    }
+    else
+      setValidUsername(false)
+  }
+
+
   return (
+    
     <View style={styles.container}>
-      <Image style= {styles.img} source= {{uri: "../images/OIP.jpg"}} />
-      <TextInput style = {styles.input}
-        placeholder = "Username"
-        placeholderTextColor = "black"
-        maxLength={13}
-        onChangeText={changeHandler}
-      />
+      <View style={styles.container2}>
+        <TextInput style = {styles.input}
+          placeholder = "Username"
+          placeholderTextColor = "black"
+          maxLength={13}
+          onChangeText={changeHandler}
+        />
+        <View style = {styles.button} >
+          <Button
+            color= '#2E4292'
+            title="Search"
+            onPress={() => validateUsername(username)}
+          />
+        </View>
+      </View>
+      <View >
+        <Text style={styles.validUsernameText}>{!validUsername ? 'username not valid': null}</Text>
+      </View>
       <StatusBar style="auto" />
     </View>
+    
   );
 }
 
@@ -27,12 +53,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'column'
+    backgroundColor: '#2E4292',
+  },
+  container2: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row'
   },
   input: {
-    width: 300,
+    width: 250,
     borderColor: "grey",
-    borderWidth: 2,
+    borderWidth: 1,
     fontSize: 18,
     fontWeight: 'bold',
     fontFamily: 'monospace',
@@ -42,5 +73,19 @@ const styles = StyleSheet.create({
   img: {
     width: 55,
     height: 55
+  },
+  button: {
+    borderColor: "grey",
+    borderWidth: 1,
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: 'monospace',
+    padding: 7,
+    backgroundColor: '#2E4292'
+  },
+  validUsernameText: {
+    color: 'red',
+    margin: 5,
+    fontSize: 24
   }
 });
