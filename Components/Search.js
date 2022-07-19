@@ -13,7 +13,7 @@ export default function Search({navigation}) {
   const validateUsername = (username) => {
     const emailRegex = /^[a-z]{2,8}$/
     if (emailRegex.test(username)) {
-      navigation.navigate('profil', username)
+      navigation.navigate('profil', {username})
       setValidUsername(true)
     }
     else

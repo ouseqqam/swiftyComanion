@@ -5,9 +5,7 @@ import React from "react";
 import styled from "styled-components/native";
 
 export default function Profil({ user, project, skills }) {
-  if (user && project && skills)
-  {
-    const a = (user.level - parseInt(user.level)) * 100;
+  const a = (user.level - parseInt(user.level)) * 100;
   const Title = styled.Text`
     text-align: center;
     font-size: 20px;
@@ -75,15 +73,6 @@ export default function Profil({ user, project, skills }) {
       </View>
     </View>
   );
-  }
-  else{
-    return (
-      <View>
-        <Text>Username doesn't exist</Text>
-      </View>
-    )
-  }
-  
 }
 
 const styles = StyleSheet.create({

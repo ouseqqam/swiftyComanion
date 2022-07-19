@@ -1,32 +1,20 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, ActivityIndicator,ScrollView } from "react-native";
-import { CLIENT_ID, SECRET_ID } from "@env";
+import {ActivityIndicator,ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 import Profil from "./Profil";
 import axios from "axios";
 
-const url1 = "https://api.intra.42.fr/oauth/token"
-const ddd = {
-  grant_type:"client_credentials",
-  client_id: CLIENT_ID,
-  client_secret: SECRET_ID,
-}
-
 
 export default function Profil2({route}) {
   const [loading, setLoading] = useState(true)
-  const [token, setToken] = useState("");
   const [project, setProject] = useState([])
   const [skill, setSkill] = useState()
   const [user, setUser] = useState()
-
-  const url = "https://api.intra.42.fr/v2/users/" + route.params
+  const token = route.params.token
+  const url = "https://api.intra.42.fr/v2/users/" + route.params.username
   useEffect(() => {
-    axios.post(url1,ddd).then((response) => {
-      setToken(response.data.access_token)
       const config = {
         headers: {
-          'Authorization': 'Bearer '+ response.data.access_token
+          'Authorization': 'Bearer '+ token
         },
       };
   
@@ -66,7 +54,6 @@ export default function Profil2({route}) {
           }
         setLoading(false)
       }).catch(error => console.log(error.response?.data))
-    })
   }, []);
   return (
     loading ? <ActivityIndicator color="white" /> :

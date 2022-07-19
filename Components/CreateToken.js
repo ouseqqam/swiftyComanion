@@ -1,8 +1,9 @@
+import Profil2 from "./Profil2"
 import { CLIENT_ID, SECRET_ID } from "@env";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ActivityIndicator } from "react-native";
-import Navigator from './routes/stack'
+
 
 const url1 = "https://api.intra.42.fr/oauth/token"
 const ddd = {
@@ -11,7 +12,7 @@ const ddd = {
   client_secret: SECRET_ID,
 }
 
-export default function App({route}) {
+export default function CreateToken({route}) {
     const [loading, setLoading] = useState(true)
     const [token, setToken] = useState()
     useEffect(() => {
@@ -22,6 +23,6 @@ export default function App({route}) {
     }, [])
     return (
         loading ? <ActivityIndicator color="white" /> :
-        <Navigator token={token} />
+        <Profil2 route={route} token={token} />
     )
 }
